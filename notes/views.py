@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from .serializers import RegisterSerializer, NoteSerializer, NoteUpdateSerializer
+from .serializers import RegisterSerializer, NoteSerializer, NoteHistorySerializer
 from .models import *
 from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
@@ -21,6 +21,7 @@ class NoteAPI(generics.ListAPIView):
         user = self.request.user
         return Note.objects.filter(user=user)
 
+
 class CreateNoteAPI(generics.CreateAPIView):
     queryset = Note.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -35,7 +36,7 @@ class CreateNoteAPI(generics.CreateAPIView):
 class NoteUpdateAPI(generics.RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Note.objects.all()
-    serializer_class = NoteUpdateSerializer
+    serializer_class = NoteSerializer
 
     def put(self, request, pk):
         user = User.objects.filter(id=self.request.user.id)
@@ -83,4 +84,4 @@ def share_note(request, **kwargs):
 class NoteHistoryAPI(generics.ListAPIView):
     queryset = NoteHistory.objects.all()
     permission_classes = (IsAuthenticated,)
-    serializer_class = NoteUpdateSerializer
+    serializer_class = NoteHistorySerializer

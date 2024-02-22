@@ -34,9 +34,9 @@ class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = ['id', 'title', 'description', 'status', 'date_created']
-    
 
-class NoteUpdateSerializer(serializers.ModelSerializer):
+
+class NoteHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = NoteHistory
-        fields = "__all__"
+        fields = ['user', 'note', 'change']
